@@ -1,0 +1,25 @@
+{
+    "name": "darkair/yii2-console",
+    "type": "yii2-extension",
+    "description": "Extension for standard Yii2 console for indented output and shortcuts",
+    "keywords": ["yii2", "extension", "console", "terminal", "indent", "shortcut", "output", "log", "logging"],
+    "version": "0.1.0",
+    "license": "BSD",
+    "authors": [
+        {
+            "name": "DarkAiR",
+            "email": "darkair@list.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+    },
+    "require-dev": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "yii\helpers\\": "src/"
+        }
+    }
+}
