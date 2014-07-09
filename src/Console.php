@@ -19,6 +19,16 @@ class Console extends BaseConsole
     static private $indent = 0;
 
     /**
+     * Output colored string
+     * @param string $string
+     * @return integer|boolean number of bytes printed or false on error.
+     */
+    public static function outputColored($string, $useEol = true)
+    {
+        return static::stdout(self::renderColoredString($string).($useEol ? PHP_EOL : ''));
+    }
+
+    /**
      * Prints text to STDERR appended with a carriage return (PHP_EOL).
      * @param string $string the text to print
      * @return integer|boolean number of bytes printed or false on error.
