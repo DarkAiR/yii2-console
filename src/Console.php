@@ -16,21 +16,37 @@ use yii\helpers\BaseConsole;
  */
 class Console extends BaseConsole
 {
-    static private $indent = 0;
+    private static $indent = 0;
+    private static $isNewLine = true;       // Is line new? If yes than add indent
+
+    /**
+     * Prints text to STDOUT appended with a carriage return (PHP_EOL).
+     *
+     * @param  string          $string the text to print
+     * @return integer|boolean number of bytes printed or false on error.
+     */
+    public static function output($string = null, $useEol = true)
+    {
+        $r = static::stdout($string.($useEol ? PHP_EOL : ''));
+        self::$isNewLine = $useEol;
+        return $r;
+    }
 
     /**
      * Output colored string
-     * @param string $string
+     * @param  string          $string
      * @return integer|boolean number of bytes printed or false on error.
      */
     public static function outputColored($string, $useEol = true)
     {
-        return static::stdout(self::renderColoredString($string).($useEol ? PHP_EOL : ''));
+        $r = static::stdout(self::renderColoredString($string).($useEol ? PHP_EOL : ''));
+        self::$isNewLine = $useEol;
+        return $r;
     }
 
     /**
      * Prints text to STDERR appended with a carriage return (PHP_EOL).
-     * @param string $string the text to print
+     * @param  string          $string the text to print
      * @return integer|boolean number of bytes printed or false on error.
      */
     public static function error($string = null)
@@ -40,20 +56,20 @@ class Console extends BaseConsole
 
     /**
      * Prints text to STDOUT like warning with a carriage return.
-     * @param string $string the text to print
+     * @param  string          $string the text to print
      * @return integer|boolean number of bytes printed or false on error.
      */
-    static public function warning($string)
+    public static function warning($string)
     {
         return self::output(self::renderColoredString("%y{$string}%n"));
     }
 
     /**
      * Prints text to STDOUT like warning with a carriage return.
-     * @param string $string the text to print
+     * @param  string          $string the text to print
      * @return integer|boolean number of bytes printed or false on error.
      */
-    static public function annotation($string)
+    public static function annotation($string)
     {
         return self::output(self::renderColoredString("%w{$string}%n"));
     }
@@ -62,7 +78,7 @@ class Console extends BaseConsole
      * Prints end of line
      * @return integer|boolean number of bytes printed or false on error.
      */
-    static public function eol()
+    public static function eol()
     {
         return self::output(' ');
     }
@@ -71,7 +87,7 @@ class Console extends BaseConsole
      * Prints ok
      * @return integer|boolean number of bytes printed or false on error.
      */
-    static public function ok()
+    public static function ok()
     {
         return self::output(self::renderColoredString("%gOK!%n"));
     }
@@ -79,19 +95,19 @@ class Console extends BaseConsole
     /**
      * Prints a string to STDOUT.
      *
-     * @param string $string the string to print
+     * @param  string      $string the string to print
      * @return int|boolean Number of bytes printed or false on error
      */
     public static function stdout($string)
     {
-        $indentStr = str_repeat('  ', self::$indent);
+        $indentStr = self::$isNewLine ? str_repeat('  ', self::$indent) : '';
         return parent::stdout($indentStr.$string);
     }
 
     /**
      * Add indent
      */
-    static public function addIndent()
+    public static function addIndent()
     {
         self::$indent++;
     }
@@ -99,7 +115,7 @@ class Console extends BaseConsole
     /**
      * Remove indent
      */
-    static public function removeIndent()
+    public static function removeIndent()
     {
         if (self::$indent > 0)
             self::$indent--;
@@ -108,7 +124,7 @@ class Console extends BaseConsole
     /**
      * Remove all indents
      */
-    static public function clearIndent()
+    public static function clearIndent()
     {
         self::$indent = 0;
     }
