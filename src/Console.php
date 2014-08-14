@@ -49,9 +49,9 @@ class Console extends BaseConsole
      * @param  string          $string the text to print
      * @return integer|boolean number of bytes printed or false on error.
      */
-    public static function error($string = null)
+    public static function error($string = null, $useEol = true)
     {
-        return parent::error(self::renderColoredString("%r{$string}%n"));
+        return parent::error(self::renderColoredString("%r{$string}%n"), $useEol);
     }
 
     /**
@@ -59,9 +59,9 @@ class Console extends BaseConsole
      * @param  string          $string the text to print
      * @return integer|boolean number of bytes printed or false on error.
      */
-    public static function warning($string)
+    public static function warning($string, $useEol = true)
     {
-        return self::output(self::renderColoredString("%y{$string}%n"));
+        return self::output(self::renderColoredString("%y{$string}%n"), $useEol);
     }
 
     /**
@@ -69,9 +69,9 @@ class Console extends BaseConsole
      * @param  string          $string the text to print
      * @return integer|boolean number of bytes printed or false on error.
      */
-    public static function annotation($string)
+    public static function annotation($string, $useEol = true)
     {
-        return self::output(self::renderColoredString("%w{$string}%n"));
+        return self::output(self::renderColoredString("%w{$string}%n"), $useEol);
     }
 
     /**
